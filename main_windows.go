@@ -19,19 +19,24 @@ func main() {
 	srv := printntlm.ServeWebDAV(*port)
 
 	if *persistent {
-		select {}
+		fired := false
+		for {
+			select {
+			case fired:
+				printntlm.SelfDAV(*port)
+				fmt.Println("fired")
+				fired = true
+			default:
+			}
+		}
 	}
 
 	printntlm.One = true
 	printntlm.Stop = make(chan bool)
-	for {
-		printntlm.SelfDAV(*port)
-		select {
-		case <-printntlm.Stop:
-			ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-			srv.Shutdown(ctx)
-			os.Exit(0)
-		default:
-		}
+	go printntlm.SelfDAV(*port)
+	select {
+	case <-printntlm.Stop:
+		ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+		srv.Shutdown(ctx)
 	}
 }

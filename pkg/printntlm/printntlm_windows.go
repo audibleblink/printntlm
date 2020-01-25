@@ -9,7 +9,7 @@ import (
 )
 
 func SelfDAV(port int) {
-	args := fmt.Sprintf(" /c net use * http://localhost:%d", port)
+	args := fmt.Sprintf(" /c net use * http://127.0.0.1:%d", port)
 	cmd := exec.Command("cmd.exe", args)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
