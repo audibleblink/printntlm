@@ -26,7 +26,7 @@ const Challenge = "TlRMTVNTUAACAAAABgAGADgAAAAFAomiESIzRFVmd4gAAAAAAAAAAIAAgAA+A
 	"BIAZgB0AHAALgBsAG8AYwBhAGwAAAAAAA=="
 
 func ServeWebDAV(port int) *http.Server {
-	portStr := fmt.Sprintf("127.0.0.1:%d", port)
+	portStr := fmt.Sprintf("0.0.0.0:%d", port)
 	srv := &http.Server{Addr: portStr}
 	http.HandleFunc("/", handleRequest)
 
